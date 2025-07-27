@@ -32,6 +32,6 @@ pooled <- with(implist, lmer(model, REML = T))
 
 # significance tests with barnard & rubin degrees of freedom
 df <- 29 - 5 - 1
-estimates <- mitml::testEstimates(pooled, extra.pars = T, df.com = df)
+estimates <- testEstimates(pooled, extra.pars = T, df.com = df)
 estimates
 confint(estimates, level = .95)

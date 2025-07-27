@@ -1,5 +1,7 @@
 # example 8.3: bayesian multilevel regression with random slopes and a partially factored (multivariate) distribution for incomplete predictors and latent response scores
 
+library(lme4)
+library(mitml)
 library(rblimp)
 
 data_url <- "https://raw.githubusercontent.com/craigenders/amd-book-examples/main/Data/diary.rda"
@@ -41,6 +43,6 @@ pooled <- with(implist, lmer(model, REML = T))
 
 # significance tests with barnard & rubin degrees of freedom
 df <- 132 - 5 - 1
-estimates <- mitml::testEstimates(pooled, extra.pars = T, df.com = df)
+estimates <- testEstimates(pooled, extra.pars = T, df.com = df)
 estimates
 confint(estimates, level = .95)
