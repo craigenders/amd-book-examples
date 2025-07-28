@@ -1,4 +1,8 @@
-# example 4.10: bayesian correlation matrix
+# EXAMPLE 4.10 - Bayes Means and Correlations
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -10,7 +14,7 @@ analysis1 <- rblimp(
   data = employeecomplete,
   model = 'jobsat empower lmx <-> jobsat empower lmx', 
   seed = 90291,
-  burn = 1000,
+  burn = 10000,
   iter = 10000)
 
 output(analysis1)
@@ -20,7 +24,7 @@ analysis2 <- rblimp(
   data = employeecomplete,
   model = 'jobsat empower lmx <-> jobsat empower lmx', 
   seed = 90291,
-  burn = 1000,
+  burn = 10000,
   iter = 10000,
   options = 'prior1')
 
@@ -31,7 +35,7 @@ analysis3 <- rblimp(
   data = employeecomplete,
   model = 'jobsat empower lmx <-> jobsat empower lmx', 
   seed = 90291,
-  burn = 1000,
+  burn = 10000,
   iter = 10000,
   options = 'prior3')
 
@@ -47,4 +51,3 @@ analysis4 <- rblimp(
     options = 'use_phantom')  
 
 output(analysis4)
-

@@ -1,4 +1,8 @@
-# example 9.13: bayesian hedeker-gibbons mlm 3-pattern mixture growth model for an mnar process,
+# EXAMPLE 9.13b - Bayes Hedeker-Gibbons MNAR Pattern Mixture Model for MLM Growth Curve
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -30,7 +34,7 @@ analysis <- rblimp(
       b2 = pcomp * b2obs + pedrop * (b2obs + b2dif1) + pldrop * (b2obs + b2dif2);
       b3 = pcomp * b3obs + pedrop * (b3obs + b3dif1) + pldrop * (b3obs + b3dif2);',
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)

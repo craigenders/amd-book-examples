@@ -1,4 +1,8 @@
-# example 8.8: fully conditional specification multiple imputation for a multilevel regression with random intercepts
+# EXAMPLE 8.8 - FCS Multiple Imputation for MLM w Random Intercepts
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(lme4)
 library(mitml)
@@ -14,7 +18,7 @@ impute <- rblimp_fcs(
     fixed = 'probsolve1 condition',
     variables = 'probsolve2 probsolve1 stanmath frlunch teachexp condition ',
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000,
     nimps = 100,
     chains = 100)

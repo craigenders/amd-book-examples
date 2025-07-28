@@ -1,4 +1,8 @@
-# example 5.3: bayesian regression with partially factored (multivariate) distribution for incomplete predictors and latent response scores
+# EXAMPLE 5.3 - Bayes Regression
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -12,8 +16,7 @@ analysis <- rblimp(
     model = 'empower ~ lmx@beta1 climate@beta2 male@beta3', # automatic multivariate distribution for incomplete predictors and latent response scores 
     waldtest = 'beta1:beta3 = 0',
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)
-

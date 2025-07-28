@@ -1,4 +1,8 @@
-# example 10.2: multiple-group imputation for gender-specific descriptives
+# EXAMPLE 10.2 - Multiple-Group FCS Multiple Imputation
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(mitml)
 library(rblimp)
@@ -13,7 +17,7 @@ impute <- rblimp_fcs(
     fixed = 'age edugroup stress control',
     variables = 'age edugroup workhrs exercise pain anxiety stress control interfere depress disability',
     seed = 90291,
-    burn = 2000,
+    burn = 10000,
     iter = 10000,
     nimps = 100,
     chains = 100) |> by_group('male')
@@ -23,15 +27,15 @@ lapply(impute,output)
 # mitml list
 implist <- as.mitml(impute)
 
-## ---- Step 1. Function to compute stats per imputation ----
+# step 1. function to compute stats per imputation
 compute_group_stats <- function(data) {
-  # Keep only numeric variables
+  # keep only numeric variables
   num_data <- data[sapply(data, is.numeric)]
   
-  # Split by gender variable 'male'
+  # split by gender variable 'male'
   groups <- split(num_data, data$male)
   
-  # For each group: compute means, SDs, correlations
+  # for each group: compute means, SDs, correlations
   lapply(groups, function(g) {
     means <- colMeans(g, na.rm = TRUE)
     sds   <- apply(g, 2, sd, na.rm = TRUE)
@@ -40,10 +44,10 @@ compute_group_stats <- function(data) {
   })
 }
 
-## ---- Step 2. Apply to all imputations ----
+# step 2. apply to all imputations
 results <- lapply(implist, compute_group_stats)
 
-## ---- Step 3. Functions to pool means & SDs across imputations ----
+# step 3. functions to pool means & SDs across imputations
 pool_means <- function(group_index, varname) {
   mean(sapply(results, function(r) r[[group_index]]$means[varname]))
 }
@@ -52,13 +56,13 @@ pool_sds <- function(group_index, varname) {
   mean(sapply(results, function(r) r[[group_index]]$sds[varname]))
 }
 
-## ---- Step 4. Function to pool correlation matrices ----
+# step 4. function to pool correlation matrices
 pool_cors <- function(group_index) {
   cors_list <- lapply(results, function(r) r[[group_index]]$cors)
   Reduce("+", cors_list) / length(cors_list)
 }
 
-## ---- Step 5. Build pooled table for all numeric variables ----
+# step 5. build pooled table for all numeric variables
 vars <- colnames(implist[[1]][sapply(implist[[1]], is.numeric)])
 
 pooled_table <- do.call(rbind, lapply(vars, function(v) {
@@ -71,17 +75,17 @@ pooled_table <- do.call(rbind, lapply(vars, function(v) {
 
 pooled_table <- as.data.frame(pooled_table)
 
-## ---- Step 6. Pooled correlation matrices for each gender ----
+# step 6. pooled correlation matrices for each gender
 pooled_cor_male0 <- pool_cors(1)
 pooled_cor_male1 <- pool_cors(2)
 
-## ---- Output ----
+# output
 pooled_table_rounded <- pooled_table
 
-# Convert all columns except the first one to numeric
+# convert all columns except the first one to numeric
 pooled_table_rounded[ , -1] <- lapply(pooled_table_rounded[ , -1], function(x) as.numeric(x))
 
-# Now round
+# round and print
 pooled_table_rounded[ , -1] <- lapply(pooled_table_rounded[ , -1], function(x) round(x, 3))
 
 print("Pooled Means and SDs by Gender:")

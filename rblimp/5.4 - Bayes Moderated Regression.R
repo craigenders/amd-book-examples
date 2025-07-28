@@ -1,4 +1,8 @@
-# example 5.4: bayesian moderated regression with partially factored (multivariate) distribution for incomplete predictors and latent responses
+# EXAMPLE 5.4 - Bayes Moderated Regression
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -13,7 +17,7 @@ analysis <- rblimp(
     model = 'disability ~ depress male depress*male pain', # automatic multivariate distribution for incomplete predictors and latent response scores 
     simple = 'depress | male', 
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)

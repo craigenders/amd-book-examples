@@ -1,4 +1,8 @@
-# example 5.3: bayesian regression with sequential specification for incomplete predictors
+# EXAMPLE 5.3 - Bayes Regression (Sequential Predictors)
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -13,8 +17,7 @@ analysis <- rblimp(
       focal.model: empower ~ lmx climate male;
       predictor.model: lmx climate ~ male', # automatic sequential specification for variables to the left of the tilde 
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)
-

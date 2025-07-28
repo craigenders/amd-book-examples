@@ -1,4 +1,8 @@
-# example 6.4: bayesian ordinal probit regression with partially factored (multivariate) distribution for incomplete predictors and latent responses
+# EXAMPLE 6.4 - Bayes Ordinal Probit Regression
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -15,4 +19,3 @@ analysis <- rblimp(
     iter = 10000)
 
 output(analysis)
-

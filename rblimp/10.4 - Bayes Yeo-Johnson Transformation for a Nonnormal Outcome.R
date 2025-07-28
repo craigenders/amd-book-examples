@@ -1,4 +1,8 @@
-# example 10.4: bayesian estimation applying a yeo-johnson transformation to a nonnormal outcome
+# EXAMPLE 10.4 - Bayes Yeo-Johnson Transformation for a Nonnormal Outcome
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -12,7 +16,7 @@ analysis <- rblimp(
     center = 'income age',
     model = 'yjt(intensity - 9) ~ parsmoke income age', # automatic multivariate normal distribution for incomplete predictors and latent response scores 
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)

@@ -1,4 +1,8 @@
-# example 8.2: bayesian multilevel regression with random intercepts and a sequential specification for incomplete predictors
+# EXAMPLE 8.2 - Bayes MLM w Random Intercepts (Sequential Predictors)
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -14,8 +18,7 @@ analysis <- rblimp(
       focal.model: probsolve2 ~ probsolve1 stanmath frlunch teachexp condition;
       predictor.models: stanmath frlunch probsolve1 teachexp ~ condition', # automatic sequential specification for level-2 variables followed by level-1 variables 
     seed = 90291,
-    burn = 4000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)
-

@@ -1,4 +1,8 @@
-# example 9.6: bayesian selection regression model for a focused mnar process
+# EXAMPLE 9.6b - Bayes Regression w MNAR Selection Model
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -14,7 +18,7 @@ analysis <- rblimp(
       focal.model: severity6 ~ drug severity0 male;
       predictor.model: severity0 ~ drug male', # sequential specification for incomplete predictor auxiliary.variable.models: severity3 severity1 ~ severity6 severity0 drug male, # automatic sequential specification for variables to the left of the tilde missingness.model: dropout ~ severity6', 
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)

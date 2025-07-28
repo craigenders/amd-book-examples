@@ -1,4 +1,8 @@
-# example 10.5: bayesian mediation analysis
+# EXAMPLE 10.5 - Bayes Mediation
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -17,7 +21,7 @@ analysis <- rblimp(
       anxiety stress control ~ depress interfere pain', # automatic sequential specification for auxiliary variables 
     parameters = 'indirect = apath*bpath',
     seed = 90291,
-    burn = 2000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)

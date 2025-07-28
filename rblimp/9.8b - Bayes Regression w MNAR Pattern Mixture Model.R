@@ -1,4 +1,8 @@
-# example 9.8: bayesian regression pattern mixture model for a focused mnar process,
+# EXAMPLE 9.8b - Bayes Regression w MNAR Pattern Mixture Model
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -26,7 +30,7 @@ analysis <- rblimp(
       b0mis = b0obs + b0diff;  # compute weighted average intercept across patterns
       b0 = (b0obs * pobs) + (b0mis * pmis);',
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)

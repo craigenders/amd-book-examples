@@ -1,4 +1,8 @@
-# example 10.6 - fcs imputation for ordered categorical indicators,
+# EXAMPLE 10.6 - FCS Multiple Imputation for CFA
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(lavaan.mi)
 library(rblimp)

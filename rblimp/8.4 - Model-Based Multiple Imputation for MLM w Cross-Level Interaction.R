@@ -1,4 +1,8 @@
-# example 8.4: model-based imputation for a multilevel regression with cross-level interaction and a partially factored (multivariate) distribution for incomplete predictors and latent response scores
+# EXAMPLE 8.4 - Model-Based Multiple Imputation for MLM w Cross-Level Interaction
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(lme4)
 library(mitml)

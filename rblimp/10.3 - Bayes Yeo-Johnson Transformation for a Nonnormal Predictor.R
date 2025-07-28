@@ -1,4 +1,8 @@
-# example 10.3: bayesian estimation applying a yeo-johnson transformation to a nonnormal predictor
+# EXAMPLE 10.3 - Bayes Yeo-Johnson Transformation for a Nonnormal Predictor
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -12,7 +16,7 @@ analysis1 <- rblimp(
   fixed = 'male age',
   model = 'logit(drinker) ~ alcage college age male', # automatic multivariate normal distribution for incomplete predictors and latent response scores 
   seed = 90291,
-  burn = 2000,
+  burn = 10000,
   iter = 10000)
 
 output(analysis1)
@@ -29,7 +33,7 @@ analysis2 <- rblimp(
       yjt(alcage - 16) ~ age male; # sequential specification for predictors 
       college ~ alcage age male', 
     seed = 90291,
-    burn = 2000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis2)

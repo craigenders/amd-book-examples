@@ -1,4 +1,8 @@
-# example 7.3: joint model multiple imputation
+# EXAMPLE 7.3 - Joint Model Multiple Imputation
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(mitml)
 library(rblimp)
@@ -11,8 +15,8 @@ impute <- rblimp(
     ordinal = 'frlunch',
     model = 'mathpost mathpre frlunch stanread ~~ mathpost mathpre frlunch stanread', 
     seed = 90291,
-    burn = 1000,
-    iter = 1000,
+    burn = 10000,
+    iter = 10000,
     nimps = 100,  # setting nimps = chains generates one data set from the last iteration of each mcmc chain
     chains = 100)
 
@@ -34,5 +38,3 @@ analysis <- with(implist, lm(change ~ 1))
 estimates <- testEstimates(analysis, extra.pars = T, df.com = 249)
 estimates
 confint(estimates, level = .95)
-
-

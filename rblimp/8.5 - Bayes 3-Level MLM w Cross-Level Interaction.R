@@ -1,4 +1,8 @@
-# example 8.5: bayesian 3-level regression with a partially factored (multivariate) distribution for incomplete predictors and latent response scores
+# EXAMPLE 8.5 - Bayes 3-Level MLM w Cross-Level Interaction
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 

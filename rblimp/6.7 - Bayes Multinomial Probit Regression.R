@@ -1,4 +1,8 @@
-# example 6.7: fcs multinomial probit regression for multicategorical outcome
+# EXAMPLE 6.7 - Bayes Multinomial Probit Regression
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -11,10 +15,7 @@ analysis <- rblimp_fcs(
     fixed = 'control male',
     variables = 'paingrps exercise control male', # FCS imputation gives multinomial probit model for pain,
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)
-
-
-

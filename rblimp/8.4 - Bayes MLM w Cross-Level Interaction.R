@@ -1,4 +1,8 @@
-# example 8.4: bayesian multilevel regression with cross-level interaction and a partially factored (multivariate) distribution for incomplete predictors and latent response scores
+# EXAMPLE 8.4 - Bayes MLM w Cross-Level Interaction
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 

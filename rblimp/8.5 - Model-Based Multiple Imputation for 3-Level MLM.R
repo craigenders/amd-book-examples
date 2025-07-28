@@ -1,4 +1,8 @@
-# example 8.5: model-based imputation for a 3-level regression with a partially factored (multivariate) distribution for incomplete predictors and latent response scores
+# EXAMPLE 8.5 - Model-Based Multiple Imputation for 3-Level MLM
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(lme4)
 library(mitml)
@@ -47,5 +51,3 @@ growth.control <- c("month7 + I(month7 * condition)*0")
 testConstraints(analysis, constraints = growth.control, df.com = df)
 growth.expgrp <- c("month7 + I(month7 * condition)*1")
 testConstraints(analysis, constraints = growth.expgrp, df.com = df)
-
-

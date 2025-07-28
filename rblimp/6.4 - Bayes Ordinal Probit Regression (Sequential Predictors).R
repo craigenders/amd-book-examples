@@ -1,4 +1,8 @@
-# example 6.4: bayesian ordinal probit regression with sequential specification for incomplete predictors
+# EXAMPLE 6.4 - Bayes Ordinal Probit Regression (Sequential Predictors)
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -17,4 +21,3 @@ analysis <- rblimp(
     iter = 10000)
 
 output(analysis)
-

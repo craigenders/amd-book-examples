@@ -1,4 +1,8 @@
-# example 9.13: bayesian shared parameter mlm growth model for an mnar process,
+# EXAMPLE 9.13b - Bayes MNAR Shared Parameter for SEM Growth Curve
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 

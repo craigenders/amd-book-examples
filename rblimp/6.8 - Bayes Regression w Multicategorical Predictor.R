@@ -1,4 +1,8 @@
-# example 6.8: bayesian regression with partially factored (multivariate) distribution for incomplete predictors and latent responses
+# EXAMPLE 6.8 - Bayes Regression w Multicategorical Predictor
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -13,8 +17,7 @@ analysis <- rblimp(
     center = 'age',
     model = 'intensity ~ parsmoke educ age', # automatic multivariate distribution for incomplete predictors and latent response scores 
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)
-

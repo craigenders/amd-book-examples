@@ -1,4 +1,8 @@
-# example 5.4: bayesian moderated regression with sequential specification for incomplete predictors
+# EXAMPLE 5.4 - Bayes Moderated Regression (Sequential Predictors)
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -15,7 +19,7 @@ analysis <- rblimp(
       predictor.models: depress pain ~ male', # automatic sequential specification for variables to the left of the tilde simple = 'depress | male', 
     simple = 'depress | male', 
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)

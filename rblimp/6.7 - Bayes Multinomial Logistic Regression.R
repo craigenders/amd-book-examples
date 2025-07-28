@@ -1,4 +1,8 @@
-# example 6.7: bayesian multinomial logistic regression for multicategorical outcome
+# EXAMPLE 6.7 - Bayes Multinomial Logistic Regression
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -11,10 +15,7 @@ analysis <- rblimp(
     fixed = 'control male',
     model = 'logit(paingrps) ~ exercise control male', # lowest code is the reference group, 
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)
-
-
-

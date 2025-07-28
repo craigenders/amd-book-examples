@@ -1,4 +1,8 @@
-# example 5.8: bayesian  regression with sequential specification for auxiliary variables
+# EXAMPLE 5.8 - Bayes Regression w Auxiliary Variables
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -16,7 +20,7 @@ analysis <- rblimp(
       auxiliary.variable.models: 
       severity1 severity3 ~ severity6 drug severity0 male', # automatic sequential specification for variables to the left of the tilde 
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)

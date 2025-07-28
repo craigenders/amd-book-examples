@@ -1,4 +1,8 @@
-# example 5.7: bayesian curvilinear regression with partially factored (multivariate) distribution for incomplete predictors and latent responses
+# EXAMPLE 5.7 - Bayes Curvilinear Regression (Sequential Predictors)
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -14,8 +18,7 @@ analysis <- rblimp(
       focal.model: mathpost ~ anxiety (anxiety^2) frlunch mathpre male;
       predictor.models: anxiety frlunch ~ mathpre male', # automatic sequential specification for variables to the left of the tilde 
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)
-

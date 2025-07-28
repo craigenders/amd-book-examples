@@ -1,4 +1,8 @@
-# example 9.13: ml diggle-kenward sem selection growth model for an mnar process,
+# EXAMPLE 9.13a - Bayes Diggle-Kenward MNAR Selection Model for SEM Growth Curve
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 

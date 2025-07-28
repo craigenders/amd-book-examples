@@ -1,4 +1,8 @@
-# example 7.11: model-based multiple imputation for a moderated regression analysis
+# EXAMPLE 7.11 - Model-Based Multiple Imputation for Moderated Regression
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(mitml)
 library(rblimp)
@@ -17,7 +21,7 @@ impute <- rblimp(
       anxiety stress control interfere ~ disability depress male pain', # automatic sequential specification for auxiliary variables to the left of the tilde 
     simple = 'depress | male',
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000,
     nimps = 100, # setting nimps = chains generates one data set from the last iteration of each mcmc chain
     chains = 100)

@@ -1,4 +1,8 @@
-# example 10.6 - bayes cfa-based imputation for ordered categorical indicators,
+# EXAMPLE 10.6 - Bayes Model-Based Multiple Imputation for CFA
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(lavaan.mi)
 library(rblimp)

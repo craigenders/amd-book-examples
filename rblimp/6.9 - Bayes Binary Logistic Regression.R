@@ -1,4 +1,8 @@
-# example 6.9: bayesian binary logistic regression with partially factored (multivariate) distribution for incomplete predictors and latent responses
+# EXAMPLE 6.9 - Bayes Binary Logistic Regression
+
+# requires blimp installation from www.appliedmissingdata.com/blimp
+# remotes::install_github('blimp-stats/rblimp')
+# remotes::update_packages('rblimp')
 
 library(rblimp)
 
@@ -11,8 +15,7 @@ analysis <- rblimp(
     fixed = 'male',
     model = 'logit(turnover) ~ lmx empower male', # automatic multivariate distribution for incomplete predictors and latent response scores 
     seed = 90291,
-    burn = 1000,
+    burn = 10000,
     iter = 10000)
 
 output(analysis)
-
