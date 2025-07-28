@@ -11,8 +11,10 @@ analysis <- rblimp(
     fixed = 'male drug',
     center = 'severity0 male',
     model = '
-      focal.model: severity6 ~ drug severity0 male; # automatic multivariate distribution for incomplete predictors and latent response scores 
-    auxiliary.variable.models: severity1 severity3 ~ severity6 drug severity0 male', # automatic sequential specification for variables to the left of the tilde 
+      focal.model: 
+      severity6 ~ drug severity0 male; # automatic multivariate distribution for incomplete predictors and latent response scores 
+      auxiliary.variable.models: 
+      severity1 severity3 ~ severity6 drug severity0 male', # automatic sequential specification for variables to the left of the tilde 
     seed = 90291,
     burn = 1000,
     iter = 10000)

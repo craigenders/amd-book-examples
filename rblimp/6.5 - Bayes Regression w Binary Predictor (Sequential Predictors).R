@@ -11,8 +11,10 @@ analysis <- rblimp(
     fixed = 'age',
     center = 'income age',
     model = '
-      focal.model: intensity ~ parsmoke income age;
-      predictor.models: parsmoke income ~ age', # automatic sequential specification for variables to the left of the tilde 
+      focal.model: 
+      intensity ~ parsmoke income age;
+      predictor.models: 
+      parsmoke income ~ age', # automatic sequential specification for variables to the left of the tilde 
     seed = 90291,
     burn = 1000,
     iter = 10000)
