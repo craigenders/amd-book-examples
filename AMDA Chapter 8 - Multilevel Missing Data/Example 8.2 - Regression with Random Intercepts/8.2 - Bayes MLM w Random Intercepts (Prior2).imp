@@ -1,0 +1,15 @@
+# EXAMPLE 8.2 - Bayes MLM w Random Intercepts (Prior2)
+DATA: problemsolving2level.dat;
+VARIABLES: school student condition teachexp eslpct ethnic male frlunch 
+	achievegrp stanmath efficacy1 efficacy2 probsolve1 probsolve2; 
+CLUSTERID: school;
+ORDINAL: frlunch;
+MISSING: 999;
+FIXED: probsolve1 condition;
+MODEL: 
+probsolve2 ~ probsolve1 stanmath frlunch teachexp condition;  # automatic multivariate distribution for incomplete predictors and latent response scores
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+OPTIONS: prior2; # IG prior for level-2 variance with  SS = 0 and df = -2
+

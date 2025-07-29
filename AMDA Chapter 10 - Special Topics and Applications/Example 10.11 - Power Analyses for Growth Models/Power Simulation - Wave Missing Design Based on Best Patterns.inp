@@ -1,0 +1,35 @@
+! EXAMPLE Power Simulation - Wave Missing Design Based on Best Patterns
+
+names = x y1 y2 y3 y4 y5;
+cutpoints = x(.50);
+nobservations = 270;
+nreps = 5000;
+seed = 90291;
+patmiss =
+y1(0) y2 (0) y3(1) y4 (1) y5 (0) |
+y1(0) y2 (1) y3(1) y4 (0) y5 (0) |
+y1(0) y2 (1) y3(0) y4 (1) y5 (0);
+patprobs = .333 | .333 | .334;
+
+MODEL POPULATION:
+
+[x*.50]; x*.25;
+[i*50]; [s*0.70711];
+i s | y1@0 y2@1 y3@2 y4@3 y5@4;
+i on x*0;
+s on x*0.9212;
+y1-y5*41;
+i*49.15139;
+s*2.5;
+i with s*3.32552; 
+
+MODEL: 
+
+[i*50]; [s*0.70711];
+i s | y1@0 y2@1 y3@2 y4@3 y5@4;
+i on x*0;
+s on x*0.9212;
+y1-y5*41;
+i*49.15139;
+s*2.5;
+i with s*3.32552; 

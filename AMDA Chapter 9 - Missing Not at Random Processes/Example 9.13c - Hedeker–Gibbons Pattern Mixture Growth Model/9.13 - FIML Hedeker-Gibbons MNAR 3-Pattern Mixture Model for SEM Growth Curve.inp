@@ -1,0 +1,61 @@
+! EXAMPLE 9.13 - FIML Hedeker-Gibbons MNAR 3-Pattern Mixture Model for SEM Growth Curve
+
+DATA:
+file = drugtrial.dat;
+VARIABLE:
+names = id male drug severe0 severe1 severe3 severe6 
+     dropgrp edrop ldrop dropout sdrop3 sdrop6;
+usevariables = drug severe0-severe6 dropgrp edrop ldrop drugbyed drugbyld;
+! categorical = drug;
+nominal = dropgrp;
+auxiliary = id;
+missing = all(999);
+DEFINE:
+drugbyed = drug * edrop;
+drugbyld = drug * ldrop;
+ANALYSIS:
+estimator = ml;
+! link = logit;
+integration = montecarlo;
+MODEL:
+! empty model for dropout group;
+[dropgrp#1] (dthresh1); [dropgrp#2] (dthresh2);
+! label coefficients in focal growth model;
+[baseline] (b0obs); [growth] (b1obs);
+baseline on drug (b2obs)
+	edrop (b0dif1)
+	ldrop (b0dif2)
+	drugbyed (b2dif1)
+	drugbyld (b2dif2);
+growth on drug (b3obs)
+	edrop (b1dif1)
+	ldrop (b1dif2)
+	drugbyed (b3dif1)
+	drugbyld (b3dif2);
+! slope loadings fixed at sqrt(0,1,3,6)
+baseline growth | severe0@0 severe1@1 severe3@1.73 severe6@2.45;
+severe0-severe6 (resvar);
+MODEL CONSTRAINT:
+new(pcomp pedrop pldrop cohensd b0 b1 b2 b3);
+! missing data pattern proportions;
+pcomp = exp(dthresh1) / (exp(0) + exp(dthresh1) + exp(dthresh2));
+pedrop = exp(dthresh2) / (exp(0) + exp(dthresh1) + exp(dthresh2));
+pldrop = exp(0) / (exp(0) + exp(dthresh1) + exp(dthresh2));
+! set b1dif1 equal to +.10 residual std. dev. units above b1dif2
+! set b3dif1 equal to -.10 residual std. dev. units below b3dif2
+cohensd = .10;
+b1dif1 = b1dif2 + cohensd * sqrt(resvar);
+b3dif1 = b3dif2 - cohensd * sqrt(resvar);
+! b1dif1 = b1dif2 + .086; ! values used in the book;
+! b3dif1 = b3dif2 - .086; ! values used in the book;
+! compute weighted average estimates across patterns
+b0 = pcomp * b0obs + pedrop * (b0obs + b0dif1) + pldrop * (b0obs + b0dif2);
+b1 = pcomp * b1obs + pedrop * (b1obs + b1dif1) + pldrop * (b1obs + b1dif2);
+b2 = pcomp * b2obs + pedrop * (b2obs + b2dif1) + pldrop * (b2obs + b2dif2);
+b3 = pcomp * b3obs + pedrop * (b3obs + b3dif1) + pldrop * (b3obs + b3dif2);
+OUTPUT:
+sampstat;
+! save likelihood values for individual influence diagnostics
+SAVEDATA:
+file = influence.dat;
+save = loglikelihood;

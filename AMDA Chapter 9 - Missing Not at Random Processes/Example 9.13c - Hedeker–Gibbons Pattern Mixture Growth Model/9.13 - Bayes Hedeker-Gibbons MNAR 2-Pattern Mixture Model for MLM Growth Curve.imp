@@ -1,0 +1,27 @@
+# EXAMPLE 9.13 - Bayes Hedeker-Gibbons MNAR 2-Pattern Mixture Model for MLM Growth Curve
+DATA: drugtrial2level.dat;
+VARIABLES: id male drug severity week dropgrp dropout sdropout;
+ORDINAL:  drug dropout;
+CLUSTERID: id;
+MISSING: 999;
+TRANSFORM:
+time = sqrt(week);
+FIXED: time;
+MODEL:
+focal.model:
+severity ~ 1@b0obs time@b1obs drug@b2obs
+   (time*drug)@b3obs dropout@b0dif (dropout*time)@b1dif
+   (dropout*drug)@b2dif (dropout*time*drug)@b3dif | time; # label coefficients in focal growth model
+predictor.models:
+dropout ~ 1@dropmean; # sequential specification for predictors
+drug ~ dropout;
+PARAMETERS:
+pobs = 1 - phi(dropmean); # missingness group proportions
+pmis = phi(dropmean);
+b0 = pobs * b0obs + pmis * (b0obs + b0dif); # compute weighted average estimates across patterns
+b1 = pobs * b1obs + pmis * (b1obs + b1dif);
+b2 = pobs * b2obs + pmis * (b2obs + b2dif);
+b3 = pobs * b3obs + pmis * (b3obs + b3dif);
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;

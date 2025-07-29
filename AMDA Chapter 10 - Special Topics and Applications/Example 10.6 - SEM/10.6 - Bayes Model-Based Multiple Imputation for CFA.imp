@@ -1,0 +1,23 @@
+# EXAMPLE 10.6 - Bayes Model-Based Multiple Imputation for CFA
+DATA: eatingrisk.dat;
+VARIABLES: id bmi drive1:drive7 diet1:diet5;
+ORDINAL: drive1:drive7 diet1:diet5;
+MISSING: 999;
+LATENT: drive diet;
+MODEL:  
+factor.model:
+drive ~~ diet;
+drive -> drive1:drive7;
+diet -> diet1:diet5;
+auxiliary.variable.model:
+bmi ~ drive1:+:drive7 diet1:+:diet5;
+SEED: 90291;
+BURN: 30000;
+ITERATIONS: 10000;
+NIMPS: 100;
+CHAINS: 100;
+SAVE: 
+stacked = ./imps/model.based.imps.dat; # R, SAS, SPSS format
+stacked0 = ./imps/model.based.imps0.dat; # Stata format
+separate = ./imps/model.based.imp*.dat; # Mplus format
+

@@ -1,0 +1,14 @@
+# EXAMPLE 10.9 - FCS Multiple Imputation for SEM Growth Curve
+DATA: drugtrial.dat;
+VARIABLES: id male drug severe0 severe1 severe3 severe6 dropgrp earlydrop latedrop dropout sdrop3 sdrop6;
+FIXED: drug;
+MISSING: 999;
+FCS: drug severe0 severe1 severe3 severe6;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 100000;
+CHAINS: 100;
+NIMPS: 100;
+SAVE: 
+stacked = ./imps/imps.dat; # R, SAS, SPSS format
+stacked0 = ./imps/imps0.dat; # Stata format

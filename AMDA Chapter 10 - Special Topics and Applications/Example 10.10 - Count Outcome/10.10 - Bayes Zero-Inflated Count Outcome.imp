@@ -1,0 +1,20 @@
+# EXAMPLE 10.10 - Bayes Zero-Inflated Count Outcome
+VARIABLES: id male age ethnicity college cigage alcage alcdays cigdays drinker;
+ORDINAL: college male alcdays_bin;
+COUNT: alcdays_cnt;
+TRANSFORM:
+alcdays_cnt = missing(alcdays == 0, alcdays); # missing if drinking days = 0, # of drinking days otherwise
+alcdays_bin = ifelse(alcdays == 0, 0, 1); # 0 = no drinks, 1 = one or more drinking days
+MISSING: 999;
+FIXED: male;
+MODEL:
+alcdays_bin ~ alcage college age male;
+alcdays_cnt ~ alcage college age male;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+# NIMPS: 100;
+# CHAINS: 100;
+# SAVE: 
+# stacked = ./imps/imps.dat; # R, SAS, SPSS format
+# stacked0 = ./imps/imps0.dat; # Stata format

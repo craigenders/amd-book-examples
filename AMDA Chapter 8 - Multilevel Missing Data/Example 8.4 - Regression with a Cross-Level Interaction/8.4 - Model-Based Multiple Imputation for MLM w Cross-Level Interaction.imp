@@ -1,0 +1,17 @@
+# EXAMPLE 8.4 - Model-Based Multiple Imputation for MLM w Cross-Level Interaction
+DATA: employee.dat;
+VARIABLES: employee team turnover male empower lmx worksat climate cohesion;
+CLUSTERID: team;
+MISSING: 999;
+FIXED: male;
+MODEL: 
+empower ~ lmx male cohesion climate lmx*climate | lmx;  # automatic multivariate distribution for incomplete predictors and latent response scores
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+OPTIONS: savelatent saveresidual;  #  save level-2 and level-1 residuals, Wishart prior for level-2 covariance matrix with  SS = 0 and df = -(V + 1)
+NIMPS: 100;  # setting nimps = chains saves one data set at the end of each mcmc chain
+CHAINS: 100;
+SAVE: 
+stacked = ./imps/imps.dat; # R, SAS, SPSS format
+stacked0 = ./imps/imps0.dat; # Stata format

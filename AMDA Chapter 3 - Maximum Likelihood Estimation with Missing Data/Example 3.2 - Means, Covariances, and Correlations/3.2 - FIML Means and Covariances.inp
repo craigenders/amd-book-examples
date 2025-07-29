@@ -1,0 +1,20 @@
+! EXAMPLE 3.2 - FIML Means and Covariances
+
+DATA: 
+file = employee.dat;
+VARIABLE: 
+names = employee team turnover male empower lmx worksat climate cohesion;
+usevariables = worksat empower lmx;
+missing = all(999);
+MODEL:
+worksat empower lmx with worksat empower lmx;
+! label variances;
+worksat (ws_var); empower (emp_var); lmx (lmx_var);
+MODEL CONSTRAINT:
+! define standard deviations as new parameters;
+new(ws_sd, emp_sd, lmx_sd);
+ws_sd = sqrt(ws_var);
+emp_sd = sqrt(emp_var);
+lmx_sd = sqrt(lmx_var);
+OUTPUT:
+patterns sampstat stdyx;

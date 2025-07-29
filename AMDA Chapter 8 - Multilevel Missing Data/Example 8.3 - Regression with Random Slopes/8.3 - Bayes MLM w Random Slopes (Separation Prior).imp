@@ -1,0 +1,20 @@
+# EXAMPLE 8.3 - Bayes MLM w Random Slopes (Separation Prior)
+DATA: diary.dat;
+VARIABLES: person day pain sleep posaff negaff lifgoal female educ diagnoses activity painaccept catastrophize stress;
+CLUSTERID: person;
+MISSING: 999;
+LATENT: person = painslp;  # define random slope as a separate level-2 latent variable
+FIXED: female;
+CENTER: 
+groupmean = pain;  # center at latent group means
+grandmean = pain.mean sleep painaccept;  # center at grand means
+MODEL: 
+posaff ~ pain@b1 sleep pain.mean@b3 painaccept female pain*painslp@1;  # label within- and between-cluster slope coefficients
+painslp ~ 1@0;  # fix mean of random slope latent variable to 0
+posaff[person] ~~ painslp;  # correlation between random intercepts and random slope latent variable
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+PARAMETERS:
+paindiff = b3 - b1; # define slope difference as new parameter
+OPTIONS: use_phantom;  # phantom variable correlation w separation prior

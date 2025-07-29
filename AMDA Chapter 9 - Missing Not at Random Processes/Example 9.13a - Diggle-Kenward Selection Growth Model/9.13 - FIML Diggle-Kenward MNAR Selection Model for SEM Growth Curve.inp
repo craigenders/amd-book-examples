@@ -1,0 +1,32 @@
+! EXAMPLE 9.13 - FIML Diggle-Kenward MNAR Selection Model for SEM Growth Curve
+
+DATA:
+file = drugtrial.dat;
+VARIABLE:
+names = id male drug severe0 severe1 severe3 severe6 dropgrp 
+     edrop ldrop dropout sdrop3 sdrop6;
+usevariables = drug severe0-severe6 sdrop3 sdrop6;
+categorical = sdrop3 sdrop6;
+auxiliary = id;
+missing = all(999);
+ANALYSIS:
+estimator = ml;
+link = probit;
+integration = montecarlo;
+starts = 20 20;
+MODEL:
+baseline growth on drug;
+! slope loadings fixed at sqrt(0,1,3,6)
+baseline growth | severe0@0 severe1@1 severe3@1.73 severe6@2.45;
+severe0-severe6 (res);
+! equality constraints on selection model coefficients
+sdrop3 on severe1 (mar)
+	severe3 (mnar);
+sdrop6 on severe3 (mar)
+	severe6 (mnar);
+OUTPUT:
+sampstat stdyx residual;
+! save likelihood values for individual influence diagnostics
+SAVEDATA:
+file = influence.dat;
+save = loglikelihood;

@@ -1,0 +1,47 @@
+! EXAMPLE 9.13 - FIML Hedeker-Gibbons MNAR 2-Pattern Mixture Model for SEM Growth Curve
+
+DATA:
+file = drugtrial.dat;
+VARIABLE:
+names = id male drug severe0 severe1 severe3 severe6 dropgrp dropout sdrop3 sdrop6;
+usevariables = drug severe0-severe6 dropout drugbydrop;
+categorical = dropout drug;
+auxiliary = id;
+missing = all(999);
+DEFINE:
+drugbydrop = drug * dropout;
+ANALYSIS:
+estimator = ml;
+link = probit;
+integration = montecarlo;
+MODEL:
+! sequential specification for predictors;
+[dropout$1] (dthresh);
+drug on dropout;
+[baseline] (b0obs); [growth] (b1obs);
+! label coefficients in focal growth model;
+baseline on drug (b2obs)
+	dropout (b0dif)
+	drugbydrop (b2dif);
+growth on drug (b3obs)
+	dropout (b1dif)
+	drugbydrop (b3dif);
+! slope loadings fixed at sqrt(0,1,3,6)
+baseline growth | severe0@0 severe1@1 severe3@1.73 severe6@2.45;
+severe0-severe6 (resvar);
+MODEL CONSTRAINT:
+new(pobs pmis b0 b1 b2 b3);
+! missingness group proportions
+pobs = 1 - phi(-dthresh);
+pmis = phi(-dthresh);
+! compute weighted average estimates across patterns
+b0 = pobs * b0obs + pmis * (b0obs + b0dif);
+b1 = pobs * b1obs + pmis * (b1obs + b1dif);
+b2 = pobs * b2obs + pmis * (b2obs + b2dif);
+b3 = pobs * b3obs + pmis * (b3obs + b3dif);
+OUTPUT:
+sampstat residual;
+! save likelihood values for individual influence diagnostics
+SAVEDATA:
+file = influence.dat;
+save = loglikelihood;

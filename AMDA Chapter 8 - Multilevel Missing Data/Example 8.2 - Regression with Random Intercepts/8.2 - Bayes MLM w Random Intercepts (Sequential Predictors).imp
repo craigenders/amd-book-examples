@@ -1,0 +1,18 @@
+# EXAMPLE 8.2 - Bayes MLM w Random Intercepts (Sequential Predictors)
+DATA: problemsolving2level.dat;
+VARIABLES: school student condition teachexp eslpct ethnic male frlunch 
+	achievegrp stanmath efficacy1 efficacy2 probsolve1 probsolve2; 
+CLUSTERID: school;
+ORDINAL: frlunch;
+MISSING: 999;
+FIXED: condition;
+MODEL: 
+focal.model:
+probsolve2 ~ probsolve1 stanmath frlunch teachexp condition ;
+predictor.models:
+stanmath frlunch probsolve1 teachexp ~ condition; # automatic sequential specification for level-2 variables followed by level-1 variables
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+OPTIONS: prior2; # IG prior for level-2 variance with  SS = 0 and df = -2
+

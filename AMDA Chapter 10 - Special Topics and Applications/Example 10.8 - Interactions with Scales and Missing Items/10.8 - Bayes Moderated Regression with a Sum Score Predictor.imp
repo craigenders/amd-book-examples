@@ -1,0 +1,23 @@
+# EXAMPLE 10.8 - Bayes Moderated Regression with a Sum Score Predictor
+DATA: pain.dat;
+VARIABLES:  id txgrp male age edugroup workhrs exercise paingrps pain 
+	anxiety stress control depress interfere disability dep1:dep7 interf1:interf6 disab1:disab6;
+ORDINAL: dep1:dep7 disab1:disab6;
+MISSING: 999;
+FIXED: male;
+MODEL:
+focal.model:
+disability ~  ( dep1:+:dep7 )@b1 male ( ( dep1:+:dep7 ) * male )@b3 pain; # inline function :+: defines the sum as a predictor (equality constraint) and as part of a product
+predictor.models:
+dep1:dep7 pain ~ male; # automatic sequential specification for variables to the left of the tilde
+auxiliary.variable.models:
+disab1:disab5 ~ disability; # automatic sequential specification for outcome items as auxiliary variables
+control interfere ~ disability dep1:+:dep7 male pain; # automatic sequential specification for auxiliary variables
+PARAMETERS:
+slope.female = b1;
+slope.male = b1 + b3;
+SEED: 90291;
+BURN: 30000;
+ITERATIONS: 10000;
+
+

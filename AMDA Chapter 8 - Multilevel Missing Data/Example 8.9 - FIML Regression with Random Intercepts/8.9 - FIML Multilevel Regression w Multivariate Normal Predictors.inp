@@ -1,0 +1,26 @@
+! EXAMPLE 8.9 - FIML Multilevel Regression w Multivariate Normal Predictors
+
+DATA: 
+file = problemsolving2level.dat;
+VARIABLE: 
+names = school student condition teachexp eslpct ethnic male frlunch 
+	achievegrp stanmath efficacy1 efficacy2 probslv1 probslv2;
+usevariables = probslv2 probslv1 stanmath frlunch teachexp condition;
+cluster = school;
+within = probslv1 stanmath frlunch;
+between = teachexp condition;
+missing = all(999);
+ANALYSIS:
+estimator = mlr;
+type = twolevel;
+MODEL:
+%within%
+! normal distribution for level-1 predictors;
+probslv1 stanmath frlunch with probslv1 stanmath frlunch;
+! between-cluster model
+probslv2 on probslv1 stanmath frlunch;
+%between%
+! normal distribution for level-2 predictors;
+teachexp with condition;
+! between-cluster model
+probslv2 on teachexp condition;

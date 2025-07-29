@@ -1,0 +1,16 @@
+# EXAMPLE 10.9 - Bayes MLM Growth Curve
+DATA: drugtrial2level.dat;
+VARIABLES: id male drug severity week dropgrp earlydrop latedrop dropout sdropout;
+CLUSTERID: id;
+FIXED: drug sqrtweek;
+ORDINAL: drug;
+MISSING: 999;
+TRANSFORM:
+sqrtweek = sqrt(week);
+MODEL: 
+severity ~ sqrtweek drug sqrtweek*drug | sqrtweek;
+SIMPLE:
+sqrtweek | drug;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;

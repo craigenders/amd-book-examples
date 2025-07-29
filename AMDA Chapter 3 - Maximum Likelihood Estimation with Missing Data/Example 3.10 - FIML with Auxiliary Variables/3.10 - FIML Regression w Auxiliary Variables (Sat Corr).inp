@@ -1,0 +1,29 @@
+! EXAMPLE 3.10 - FIML Regression w Auxiliary Variables (Sat Corr)
+
+DATA:
+file = drugtrial.dat;
+VARIABLE:
+names = id male drug severe0 severe1 severe3 severe6 dropgrp 
+     edrop ldrop dropout sdrop3 sdrop6;
+usevariables = male drug severe0 severe6;
+! auxiliary variables;
+auxiliary = (m) severe1 severe3;
+missing = all(999);
+DEFINE:
+center severe0 male (grandmean);
+ANALYSIS:
+estimator = mlr;
+MODEL:
+! normal distribution for predictors;
+drug severe0 male;
+! label slope coefficients in focal model;
+severe6 on drug (b1)
+	severe0 (b2)
+ 	male (b3);
+MODEL TEST:
+! wald test that all slopes equal 0;
+b1 = 0;
+b2 = 0;
+b3 = 0;
+OUTPUT:
+patterns sampstat stdyx cinterval;

@@ -1,0 +1,22 @@
+# EXAMPLE 10.3 - Bayes Yeo-Johnson Transformation
+DATA: alcoholuse.dat;
+VARIABLES: id male age ethnicity college cigage alcage alcdays cigdays drinker;
+ORDINAL: male college drinker;
+MISSING: 999;
+FIXED: male age;
+MODEL:
+focal.model:
+logit(drinker) ~ alcage college age male;
+predictor.models:
+yjt(alcage - 16) ~ age male; # sequential specification for predictors
+college ~ alcage age male; 
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+
+# OPTIONS: savelatent; # save transformed scores
+# NIMPS: 100; # setting nimps = chains saves one data set at the end of each mcmc chain
+# CHAINS: 100;
+# SAVE:
+# stacked = ./imps/imps.dat; # R, SAS, SPSS format
+# stacked0 = ./imps/imps0.dat; # Stata format

@@ -1,0 +1,21 @@
+# EXAMPLE 8.5 - Model-Based Multiple Imputation for 3-Level MLM
+DATA: problemsolving3level.dat;
+VARIABLES: school student wave condition teachexp eslpct ethnic male frlunch 
+     achievegrp stanmath month0 month7 probsolve efficacy;
+CLUSTERID: school student;
+ORDINAL: frlunch;
+MISSING: 999;
+FIXED: month7 condition;
+MODEL: 
+probsolve ~ month7 stanmath frlunch teachexp condition month7*condition  | month7;  # random intercepts and slopes at level-2 and level-3
+SEED: 90291;
+BURN: 15000;
+ITERATIONS: 10000;
+OPTIONS: savelatent saveresidual prior2;  #  save level-2 and level-1 residuals, Wishart prior for level-2 covariance matrix with  SS = 0 and df = -(V + 1)
+NIMPS: 100;  # setting nimps = chains saves one data set at the end of each mcmc chain
+CHAINS: 100;
+SAVE: 
+stacked = ./imps/imps.dat; # R, SAS, SPSS format
+stacked0 = ./imps/imps0.dat; # Stata format
+separate = ./imps/imp*.dat; # Mplus format
+

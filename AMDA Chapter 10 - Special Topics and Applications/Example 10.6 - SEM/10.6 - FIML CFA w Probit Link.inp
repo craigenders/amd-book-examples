@@ -1,0 +1,19 @@
+! EXAMPLE 10.6 - FIML CFA w Probit Link
+
+DATA:
+file = eatingrisk.dat;
+VARIABLE:
+names = id bmi drive1-drive7 diet1-diet5;
+usevariables = drive1-drive7 diet1-diet5; 
+categorical = drive1-drive7 diet1-diet5; 
+missing = all(999);
+ANALYSIS:
+estimator = mlr;
+link = probit;
+MODEL:
+drive@1; diet@1;
+drive with diet;
+drive by drive1* drive2-drive7;
+diet by diet1* diet2-diet5;
+OUTPUT:
+patterns sampstat stdyx;

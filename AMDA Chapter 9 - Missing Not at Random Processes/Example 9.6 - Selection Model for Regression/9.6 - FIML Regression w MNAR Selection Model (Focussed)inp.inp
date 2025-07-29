@@ -1,0 +1,44 @@
+! EXAMPLE 9.6 - FIML Regression w MNAR Selection Model (Focussed)inp
+
+DATA:
+file = drugtrial.dat;
+VARIABLE:
+names = id male drug severe0 severe1 severe3 severe6 dropgrp 
+     edrop ldrop dropout sdrop3 sdrop6;
+usevariables = male drug severe0 severe1 severe3 severe6 dropout;
+categorical = dropout;
+missing = all(999);
+DEFINE:
+center male severe0 (grandmean);
+ANALYSIS:
+estimator = ml;
+link = probit;
+integration = montecarlo;
+starts = 100 10;
+MODEL:
+! sequential specification for incomplete predictor;
+severe0 on drug male;
+! label coefficients in focal model;
+severe6 on drug (b1)
+	severe0 (b2)
+ 	male (b3);
+[severe6] (b0); severe6 (resvar);
+! factored (sequential) specification for auxiliary variables;
+severe1 on severe6 severe0 drug male;
+severe3 on severe1 severe6 severe0 drug male;
+! selection model
+dropout on severe6 (g1);
+[dropout$1] (tau);
+MODEL CONSTRAINT:
+! define new parameters
+new(scale,ppm_tx1,ppm_tx0);
+! predicted probabilities of missing data
+scale = sqrt(g1^2*resvar + 1);
+ppm_tx1 = phi((-tau + g1*(b0 + 1*b1))/scale);
+ppm_tx0 = phi((-tau + g1*(b0 + 0*b1))/scale);
+OUTPUT:
+stdyx residual;
+! save likelihood values for individual influence diagnostics
+SAVEDATA:
+file = influence.dat;
+save = loglikelihood;

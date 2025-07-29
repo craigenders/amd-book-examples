@@ -1,0 +1,17 @@
+! EXAMPLE 10.6 - Analyze Blimp Studio Latent Imputations w FIML
+
+DATA:
+file = ./imps/implist.dat;
+type = imputation;
+VARIABLE:
+names = id bmi drive1-drive7 diet1-diet5 latdrive1-latdrive7 latdiet1-latdiet5;
+usevariables = latdrive1-latdrive7 latdiet1-latdiet5;
+missing = all(999);
+ANALYSIS:
+estimator = ml;
+MODEL:
+drive with diet;
+drive by latdrive1-latdrive7;
+diet by latdiet1-latdiet5;
+OUTPUT:
+patterns sampstat stdyx;

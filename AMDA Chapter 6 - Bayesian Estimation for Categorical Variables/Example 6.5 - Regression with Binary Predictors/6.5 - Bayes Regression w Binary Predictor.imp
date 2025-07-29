@@ -1,0 +1,12 @@
+# EXAMPLE 6.5 - Bayes Regression w Binary Predictor
+DATA: smoking.dat;
+VARIABLES: id intensity hvysmoker age parsmoke female race income educ;
+ORDINAL: parsmoke;
+MISSING: 999;
+FIXED: age;
+CENTER: income age;
+MODEL: 
+intensity ~ parsmoke income age;  # automatic multivariate distribution for incomplete predictors and latent response scores
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;

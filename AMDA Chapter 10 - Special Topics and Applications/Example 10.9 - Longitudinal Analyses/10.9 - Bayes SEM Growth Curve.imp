@@ -1,0 +1,28 @@
+# EXAMPLE 10.9 - Bayes SEM Growth Curve
+DATA: drugtrial.dat;
+VARIABLES: id male drug severe0 severe1 severe3 severe6 dropgrp earlydrop latedrop dropout sdrop3 sdrop6;
+FIXED: drug;
+MISSING: 999;
+LATENT: icepts slopes;
+MODEL:
+growth.factors:
+icepts ~ 1;  slopes ~ 1;  icepts ~~ slopes;
+icepts ~ drug;
+slopes ~ drug;
+repeated.measures:
+severe0 ~ 1@0 icepts@1 slopes@0;
+severe1 ~ 1@0 icepts@1 slopes@1;
+severe3 ~ 1@0 icepts@1 slopes@sqrt(3);
+severe6 ~ 1@0 icepts@1 slopes@sqrt(6) ;
+severe0~~severe0@resvar;
+severe1~~severe1@resvar;
+severe3~~severe3@resvar;
+severe6~~severe6@resvar;
+SEED: 90291;
+BURN: 20000;
+ITERATIONS: 10000;
+# CHAINS: 100;
+# NIMPS: 100;
+# SAVE: 
+# stacked = ./imps/imps.dat; # R, SAS, SPSS format
+# stacked0 = ./imps/imps0.dat; # Stata format

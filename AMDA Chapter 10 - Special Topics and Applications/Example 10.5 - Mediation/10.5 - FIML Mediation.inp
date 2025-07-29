@@ -1,0 +1,26 @@
+! EXAMPLE 10.5 - FIML Mediation
+
+DATA: 
+file = pain.dat;
+VARIABLE:  
+names = id txgrp male age edugroup workhrs exercise paingrps pain 
+	anxiety stress control depress interfere disability 
+	dep1-dep7 interf1-interf6 disab1-disab6;
+usevariables = pain depress interfere anxiety stress control;
+missing = all(999);
+ANALYSIS:
+processors = 10;
+bootstrap = 2000;
+MODEL:
+! analysis model
+pain depress interfere;
+interfere on pain (apath);
+depress on interfere (bpath) 
+	pain (cpath);
+! auxiliary variable model;
+anxiety stress control on pain depress interfere;
+MODEL CONSTRAINT:
+new(indirect);
+indirect = apath * bpath;
+OUTPUT:
+patterns sampstat stdyx cinterval(bootstrap) cinterval(bcbootstrap);

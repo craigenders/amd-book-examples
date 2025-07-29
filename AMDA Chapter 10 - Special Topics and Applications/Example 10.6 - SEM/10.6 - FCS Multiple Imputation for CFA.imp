@@ -1,0 +1,17 @@
+# EXAMPLE 10.6 - FCS Multiple Imputation for CFA
+DATA: eatingrisk.dat;
+VARIABLES: id bmi drive1:drive7 diet1:diet5;
+ORDINAL: drive1:drive7 diet1:diet5;
+MISSING: 999;
+FCS: bmi drive1:drive7 diet1:diet5;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+NIMPS: 100;
+CHAINS: 100;
+OPTIONS: savelatent;
+SAVE: 
+stacked = ./imps/imps.dat; # R, SAS, SPSS format
+stacked0 = ./imps/imps0.dat; # Stata format
+separate = ./imps/imp*.dat; # Mplus format
+

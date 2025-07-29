@@ -1,0 +1,17 @@
+# EXAMPLE 8.4 - Bayes MLM w Cross-Level Interaction (Prior3)
+DATA: employee.dat;
+VARIABLES: employee team turnover male empower lmx worksat climate cohesion;
+CLUSTERID: team;
+MISSING: 999;
+FIXED: male;
+CENTER: 
+groupmean = lmx;  # center at latent group means
+grandmean =  male climate cohesion;  # center at grand means
+MODEL: 
+empower ~ lmx male cohesion climate lmx*climate | lmx;  # automatic multivariate distribution for incomplete predictors and latent response scores
+SIMPLE: 
+lmx | climate;  # conditional effect of lmx at different levels of climate
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+OPTIONS: prior3;  # Wishart prior for level-2 covariance matrix with SS = 0 and df = 0

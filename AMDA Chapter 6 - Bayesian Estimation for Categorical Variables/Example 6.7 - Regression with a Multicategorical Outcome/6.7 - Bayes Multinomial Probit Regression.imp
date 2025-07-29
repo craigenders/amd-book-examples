@@ -1,0 +1,16 @@
+# EXAMPLE 6.7 - Bayes Multinomial Probit Regression
+DATA: pain.dat;
+VARIABLES:  id txgrp male age edugroup workhrs exercise paingrp pain 
+	anxiety stress control depress interfere disability dep1:dep7 interf1:interf6 disab1:disab6;
+NOMINAL: paingrp;
+MISSING: 999;
+FIXED: control male;
+FCS: 
+# FCS imputation gives multinomial probit model for pain;
+paingrp exercise control male;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+
+
+

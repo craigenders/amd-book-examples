@@ -1,0 +1,17 @@
+# EXAMPLE 10.10 - Bayes Count Outcome
+VARIABLES: id male age ethnicity college cigage alcage 
+   alcdays cigdays drinker;
+ORDINAL: college male;
+COUNT: alcdays;
+MISSING: 999;
+FIXED: male;
+MODEL:
+alcdays ~ alcage college age male;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+# NIMPS: 100;
+# CHAINS: 100;
+# SAVE: 
+# stacked = ./imps/imps.dat; # R, SAS, SPSS format
+# stacked0 = ./imps/imps0.dat; # Stata format

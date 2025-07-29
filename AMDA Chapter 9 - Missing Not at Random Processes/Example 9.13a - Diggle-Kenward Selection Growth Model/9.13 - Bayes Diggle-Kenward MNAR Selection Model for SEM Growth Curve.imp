@@ -1,0 +1,26 @@
+# EXAMPLE 9.13 - Bayes Diggle-Kenward MNAR Selection Model for SEM Growth Curve
+DATA: drugtrial.dat;
+VARIABLES: id male drug severe0 severe1 severe3 severe6 dropgrp 
+     edrop ldrop dropout sdrop3 sdrop6;
+ORDINAL: sdrop3 sdrop6;
+LATENT: baseline growth;
+MISSING: 999;
+MODEL:
+structural:
+baseline ~ intercept drug;
+growth  ~ intercept drug;
+measurement:
+severe0 ~ intercept@0 baseline@1 growth@0;
+severe1 ~ intercept@0 baseline@1 growth@1;
+severe3 ~ intercept@0 baseline@1 growth@1.73;
+severe6 ~ intercept@0 baseline@1 growth@2.45;
+severe0 ~~ severe0@resvar;
+severe1 ~~ severe1@resvar;
+severe3 ~~ severe3@resvar;
+severe6 ~~ severe6@resvar;
+selection.model:
+sdrop3 ~ severe1@mar severe3@mnar; # equality constraints on selection model coefficients
+sdrop6 ~ severe3@mar severe6@mnar;
+SEED: 90291;
+BURN: 100000;
+ITERATIONS: 10000;

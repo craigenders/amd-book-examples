@@ -1,0 +1,13 @@
+# EXAMPLE 4.8 - Bayes Regression
+DATA: smokingcomplete.dat;
+VARIABLES: id intensity hvysmoker age parsmoke female race income educ;
+FIXED: parsmoke age income;
+CENTER: age income;
+MODEL:
+intensity ~ parsmoke@beta1 age@beta2 income@beta3;
+WALDTEST:
+beta1:beta3 = 0;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+

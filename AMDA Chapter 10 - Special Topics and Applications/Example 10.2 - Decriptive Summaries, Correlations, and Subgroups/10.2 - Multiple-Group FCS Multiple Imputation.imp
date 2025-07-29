@@ -1,0 +1,20 @@
+# EXAMPLE 10.2 - Multiple-Group FCS Multiple Imputation
+DATA: pain.dat;
+VARIABLES:  id txgrp male age edugroup workhrs exercise paingrps pain 
+	anxiety stress control depress interfere disability dep1:dep7 interf1:interf6 disab1:disab6;
+ORDINAL: pain;
+NOMINAL: edugroup;
+MISSING: 999;
+FIXED: age edugroup stress control;
+BYGROUP: male;
+FCS: age edugroup workhrs exercise pain anxiety stress control interfere depress disability;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+NIMPS: 100;
+CHAINS: 100;
+SAVE: 
+stacked = ./imps/imps.dat; # R, SAS, SPSS format
+stacked0 = ./imps/imps0.dat; # Stata format
+separate = ./imps/imp*.dat; # Mplus format
+

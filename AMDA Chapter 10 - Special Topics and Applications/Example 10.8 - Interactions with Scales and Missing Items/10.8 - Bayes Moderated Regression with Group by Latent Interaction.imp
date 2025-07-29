@@ -1,0 +1,23 @@
+# EXAMPLE 10.8 - Bayes Moderated Regression with Group by Latent Interaction
+DATA: pain.dat;
+VARIABLES:  id txgrp male age edugroup workhrs exercise paingrps pain 
+	anxiety stress control depress interfere disability dep1:dep7 interf1:interf6 disab1:disab6;
+ORDINAL: male pain dep1:dep7 disab1:disab6;
+MISSING: 999;
+LATENT: ldepress ldisability;
+MODEL:
+focal.model:
+ldisability ~ ldepress@b1 male (ldepress * male)@b3 pain; # label parameters in the focal regression model
+factor.models:
+ldepress -> dep1:dep7; # measurement models with first loading fixed to 1
+ldisability -> disab1:disab6;
+predictor.models:
+pain male ~ ldepress; # automatic sequential specification for predictor variables
+auxiliary.variable.models:
+control interfere ~ ldisability ldepress male pain; # automatic sequential specification for auxiliary variables
+SIMPLE: ldepress | male; # simple effects by gender
+SEED: 90291;
+BURN: 40000;
+ITERATIONS: 10000;
+
+

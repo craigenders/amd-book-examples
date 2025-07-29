@@ -1,0 +1,18 @@
+# EXAMPLE 10.4 - Bayes Yeo-Johnson Transformation
+DATA: smoking.dat;
+VARIABLES: id intensity hvysmoker age parsmoke female race income educ;
+ORDINAL: parsmoke;
+MISSING: 999;
+FIXED: age;
+CENTER: income age;
+MODEL: 
+yjt(intensity - 9) ~ parsmoke income age; # automatic multivariate normal distribution for incomplete predictors and latent response scores
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+# OPTIONS: savelatent; # save transformed scores
+# NIMPS: 100; # setting nimps = chains saves one data set at the end of each mcmc chain
+# CHAINS: 100;
+# SAVE:
+# stacked = ./imps/imps.dat; # R, SAS, SPSS format
+# stacked0 = ./imps/imps0.dat; # Stata format

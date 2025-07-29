@@ -1,0 +1,13 @@
+# EXAMPLE 6.9 - Bayes Binary Logistic Regression
+DATA: employee.dat;
+VARIABLES: employee team turnover male empower lmx worksat climate cohesion;
+ORDINAL: turnover male;
+MISSING: 999;
+FIXED: male;
+MODEL: 
+# automatic multivariate distribution for incomplete predictors and latent response scores
+logit(turnover) ~ lmx empower male;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+

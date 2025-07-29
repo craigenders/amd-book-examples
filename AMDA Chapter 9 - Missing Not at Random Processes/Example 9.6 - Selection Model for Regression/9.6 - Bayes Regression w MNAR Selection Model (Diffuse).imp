@@ -1,0 +1,19 @@
+# EXAMPLE 9.6 - Bayes Regression w MNAR Selection Model (Diffuse)
+DATA: drugtrial.dat;
+VARIABLES: id male drug severe0 severe1 severe3 severe6 dropgrp earlydrop latedrop dropout sdrop3 sdrop6;
+ORDINAL: dropout;
+MISSING: 999;
+FIXED: male drug;
+CENTER: male severe0;
+MODEL: 
+focal.model:
+severe6 ~ drug severe0 male;
+predictor.model:
+severe0 ~ drug male;  # sequential specification for incomplete predictor
+auxiliary.variable.models:
+severe3 severe1 ~ severe6 severe0 drug male;  # automatic sequential specification for variables to the left of the tilde
+missingness.model:
+dropout ~ severe6 drug;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;

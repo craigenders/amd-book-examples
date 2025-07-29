@@ -1,0 +1,26 @@
+# EXAMPLE 9.13 - Bayes MNAR Shared Parameter for SEM Growth Curve
+DATA: drugtrial.dat;
+VARIABLES: id male drug severe0 severe1 severe3 severe6 dropgrp edrop ldrop dropout sdrop3 sdrop6;;
+ORDINAL: drug sdrop3 sdrop6;
+MISSING: 999;
+LATENT: baseline growth;  # define random intercept and slope latent variables;
+MODEL:
+latent.model:
+baseline ~ 1 drug;
+growth ~ 1 drug;
+baseline ~~ growth;
+measurement.model:
+severe0 ~ 1@0 baseline@1 growth@0;
+severe1 ~ 1@0 baseline@1 growth@1;
+severe3 ~ 1@0 baseline@1 growth@1.73;
+severe6 ~ 1@0 baseline@1 growth@2.45;
+severe0 ~~ severe0@resvar;
+severe1 ~~ severe1@resvar;
+severe3 ~~ severe3@resvar;
+severe6 ~~ severe6@resvar;
+missingness.model:
+sdrop3 ~ baseline@icept growth@slope drug@tx;
+sdrop6 ~ baseline@icept growth@slope drug@tx;
+SEED: 90291;
+BURN: 50000;
+ITERATIONS: 10000;

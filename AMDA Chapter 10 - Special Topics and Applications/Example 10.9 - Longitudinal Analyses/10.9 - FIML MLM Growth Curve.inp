@@ -1,0 +1,27 @@
+! EXAMPLE 10.9 - FIML MLM Growth Curve
+
+DATA: 
+file = drugtrial2level.dat;
+VARIABLE: 
+names = id male drug severity week dropgrp earlydrop latedrop dropout sdropout;
+usevariables = severity drug sqrtweek;
+cluster = id;
+missing = all(999);
+within = sqrtweek;
+between = drug;
+DEFINE:
+sqrtweek = sqrt(week);
+ANALYSIS:
+type = twolevel random;
+estimator = mlr;
+MODEL:
+%within%
+slope | severity on sqrtweek;
+%between%
+[slope] (b1);
+severity with slope;
+severity on drug;
+slope on drug (b3);
+MODEL CONSTRAINT:
+new(txslp);
+txslp = b1 + b3;

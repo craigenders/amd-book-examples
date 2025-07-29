@@ -1,0 +1,18 @@
+# EXAMPLE 10.5 - Bayes Mediation
+DATA: pain.dat;
+VARIABLES:  id txgrp male age edugroup workhrs exercise paingrps pain 
+	anxiety stress control depress interfere disability dep1:dep7 interf1:interf6 disab1:disab6;
+ORDINAL: pain;
+MISSING: 999;
+FIXED: male;
+MODEL:
+mediation.models:
+interfere ~ pain@apath;
+depress ~ interfere@bpath pain;
+auxiliary.models:
+anxiety stress control ~ depress interfere pain; # automatic sequential specification for auxiliary variables
+PARAMETERS:
+indirect = apath*bpath;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;

@@ -1,0 +1,17 @@
+# EXAMPLE 8.3 - Bayes MLM w Random Slopes (Prior3)
+DATA: diary.dat;
+VARIABLES: person day pain sleep posaff negaff lifgoal female educ diagnoses activity painaccept catastrophize stress;
+CLUSTERID: person;
+MISSING: 999;
+FIXED: female;
+CENTER: 
+groupmean = pain;  # center at latent group means
+grandmean = pain.mean sleep painaccept;  # center at grand means
+MODEL: 
+posaff ~ pain@b1 sleep pain.mean@b3 painaccept female | pain;  # label within- and between-cluster slope coefficients
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+PARAMETERS:
+paindiff = b3 - b1;  # define slope difference as new parameter
+OPTIONS: prior3;  # Wishart prior for level-2 covariance matrix with SS = 0 and df = 0

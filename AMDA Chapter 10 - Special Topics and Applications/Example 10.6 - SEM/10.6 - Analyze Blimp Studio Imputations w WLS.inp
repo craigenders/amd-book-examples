@@ -1,0 +1,18 @@
+! EXAMPLE 10.6 - Analyze Blimp Studio Imputations w WLS
+
+DATA:
+file = ./imps/implist.dat;
+type = imputation;
+VARIABLE:
+names = id bmi drive1-drive7 diet1-diet5 latdrive1-latdrive7 latdiet1-latdiet5;
+usevariables = drive1-drive7 diet1-diet5; 
+categorical = drive1-drive7 diet1-diet5;
+missing = all(999);
+ANALYSIS:
+estimator = wls;
+MODEL:
+drive with diet;
+drive by drive1-drive7;
+diet by diet1-diet5;
+OUTPUT:
+patterns sampstat stdyx;

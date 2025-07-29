@@ -1,0 +1,11 @@
+# EXAMPLE 5.9 - Bayes Means, SDs, Correlations (Separation Prior)
+DATA: employee.dat;
+VARIABLES: employee team turnover male empower lmx worksat climate cohesion;
+MISSING: 999;
+MODEL:
+worksat empower lmx <-> worksat empower lmx;  #  covariances / correlations
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 20000;
+OPTIONS: use_phantom;  # phantom variable correlation w separation prior
+

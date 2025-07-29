@@ -1,0 +1,17 @@
+# EXAMPLE 8.8 - FCS Multiple Imputation for MLM w Random Intercepts
+DATA: problemsolving2level.dat;
+VARIABLES: school student condition teachexp eslpct ethnic male frlunch 
+	achievegrp stanmath efficacy1 efficacy2 probsolve1 probsolve2; 
+CLUSTERID: school;
+ORDINAL: frlunch;
+MISSING: 999;
+FIXED: probsolve1 condition;
+FCS: probsolve2 probsolve1 stanmath frlunch teachexp condition ;
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+NIMPS: 100; # setting nimps = chains saves one data set at the end of each mcmc chain
+CHAINS: 100;
+SAVE: 
+stacked = ./imps/imps.dat; # R, SAS, SPSS format
+stacked0 = ./imps/imps0.dat; # Stata format

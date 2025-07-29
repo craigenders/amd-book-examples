@@ -1,0 +1,25 @@
+# EXAMPLE 9.8 - Bayes Regression w MNAR Pattern Mixture Model (Focused)
+DATA: drugtrial.dat;
+VARIABLES: id male drug severe0 severe1 severe3 severe6 dropgrp earlydrop latedrop dropout sdrop3 sdrop6;
+MISSING: 999;
+ORDINAL: male drug dropout;
+CENTER: severe0 male;
+MODEL:
+focal.model:
+severe6 ~ 1@b0obs dropout@b0diff drug severe0 male;  # label parameters in focal analysis model
+severe6 ~~severe6@resvar;  # label residual variance
+predictor.models:
+dropout ~ 1@dropmean; # sequential specification for predictors
+severe0 male drug ~ dropout;
+auxiliary.variable.models:
+severe3 severe1 ~ severe6 severe0 drug male;  # automatic sequential specification for variables to the left of the tilde
+PARAMETERS:
+cohensd = .20;
+b0diff = cohensd * sqrt(resvar);  # set b0diff equal to +.20 residual std. dev. units
+pobs = 1 - phi(dropmean);  # missingness group proportions
+pmis = phi(dropmean);
+b0mis = b0obs + b0diff;  # compute weighted average intercept across patterns
+b0 = (b0obs * pobs) + (b0mis * pmis);
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;

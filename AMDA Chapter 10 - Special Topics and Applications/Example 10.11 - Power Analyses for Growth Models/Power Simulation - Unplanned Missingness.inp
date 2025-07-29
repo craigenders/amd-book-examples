@@ -1,0 +1,38 @@
+! EXAMPLE Power Simulation - Unplanned Missingness
+
+names = x y1 y2 y3 y4 y5;
+cutpoints = x(.5);
+nobservations = 480;
+nreps = 5000;
+seed = 90291;
+missing = y3-y5;
+
+MODEL POPULATION:
+
+[x*.5]; x*.25;
+[i*50]; [s*0.70711];
+i s | y1@0 y2@1 y3@2 y4@3 y5@4;
+i on x*0;
+s on x*0.9212;
+y1-y5*41;
+i*49.15139;
+s*2.5;
+i with s*3.32552; 
+
+MODEL MISSING:
+
+[y3*-6.8646848 y4*-5.9995032 y5*-4.8474572]; 
+y3 ON x*1.3880442 y1*0.0730949;
+y4 ON x*1.3880442 y1*0.0730949;
+y5 ON x*1.3880442 y1*0.0730949;
+
+MODEL: 
+
+[i*50]; [s*0.70711];
+i s | y1@0 y2@1 y3@2 y4@3 y5@4;
+i on x*0;
+s on x*0.9212;
+y1-y5*41;
+i*49.15139;
+s*2.5;
+i with s*3.32552; 
