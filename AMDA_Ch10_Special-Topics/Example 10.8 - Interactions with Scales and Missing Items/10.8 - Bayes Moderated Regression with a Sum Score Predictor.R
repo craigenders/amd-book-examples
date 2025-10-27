@@ -12,7 +12,7 @@ load(gzcon(url(data_url, open = "rb")))
 # basic analysis with sum score as a predictor in an interaction
 analysis1 <- rblimp(
   data = pain,
-  ordinal = 'dep1:dep7 dis1:dis6',
+  ordinal = 'dep1:dep7 dis1:dis6 male pain',
   fixed = 'male',
   model = 'disability ~ ( dep1:+:dep7 )@b1 male ( (dep1:+:dep7) * male )@b3 pain;', # inline function :+: defines a sum score 
   parameters = '
@@ -27,7 +27,7 @@ output(analysis1)
 # use all but one dependent variable items as auxiliary variables for its scale score
 analysis2 <- rblimp(
     data = pain,
-    ordinal = 'dep1:dep7 dis1:dis6',
+    ordinal = 'dep1:dep7 dis1:dis6 male pain',
     fixed = 'male',
     model = '
       focal.model: 
