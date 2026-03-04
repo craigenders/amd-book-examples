@@ -9,10 +9,6 @@ library(rblimp)
 data_url <- "https://raw.githubusercontent.com/craigenders/amd-book-examples/main/Data/problemsolving3level.rda"
 load(gzcon(url(data_url, open = "rb")))
 
-
-problemsolving3level[problemsolving3level == 999] <- NA
-save(problemsolving3level, file = '~/desktop/problemsolving3level.rda')
-
 # default prior2: wishart prior for level-2 covariance matrix with  ss = 0 and df = -(v + 1)
 analysis1 <- rblimp(
     data = problemsolving3level,
